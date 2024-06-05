@@ -16,7 +16,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         // match: [Utils.passwordRegex, ErrorMessage.passwordFormatError]
-    }, profileURL: {
+    }, profileImageURL: {
         type: String
     }, knownFor: {
         type: String,
@@ -29,6 +29,9 @@ const UserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Quote'
     }], savedQuotes: [{ 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Quote'
+    }], likedQuotes: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Quote'
     }], 
