@@ -25,14 +25,15 @@ async function registerUser(user) {
             await newUser.save();
 
             let user = {
-                _id: newUser._id,
                 fullName: newUser.fullName,
-                email: newUser.email
+                email: newUser.email,
+                profileImageURL: newUser?.profileImageURL,
+                knownFor: newUser?.knownFor
             }
 
-            const token = Auth.generateToken({ id: user._id, email: user.email })
-            Auth.setTokenCookie(token);
-            return {user, token}
+            const token = Auth.generateToken({ id: newUser._id, email: newUser.email })
+            const cookie = Auth.setTokenCookie(token);
+            return {user, cookie}
 
         } else {
             throw new AppError("Invalid User data", StatusCodes.BAD_REQUEST)
@@ -60,7 +61,10 @@ async function loginUser(credentials){
         }
 
         const token = Auth.generateToken({ id: user.id, email: user.email })
-        return {user, token};
+        const cookie = Auth.setTokenCookie(token);
+        return {
+            user: {
+                fullName: user.fullName, email: user.email, profileImageURL: user?.profileImageURL, knownFor: user?.knownFor }, cookie, token };
     } catch (error) {
         console.log("Error in login service\n", error)
         if (error instanceof AppError) throw error;

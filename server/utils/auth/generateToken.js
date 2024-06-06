@@ -1,8 +1,11 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { ServerConfig } = require("../../config");
+const { ErrorResponse } = require("..");
+const { StatusCodes } = require("http-status-codes");
+const { User } = require("../../models");
 
-function comparePasswords(password, hashedPassword) {
+const comparePasswords = (password, hashedPassword) => {
     try {
         return bcrypt.compareSync(password, hashedPassword);
     } catch (error) {
@@ -11,7 +14,7 @@ function comparePasswords(password, hashedPassword) {
     }
 }
 
-function generateToken(user) {
+const generateToken = (user) => {
     try {
         return jwt.sign(user, ServerConfig.JWT_SECRET, { expiresIn: ServerConfig.JWT_EXPIRY })
     } catch (error) {
@@ -20,21 +23,45 @@ function generateToken(user) {
     }
 }
 
-function setTokenCookie(token, res) {
-    return cookie("jwt", token, {
-        maxAge: 15 * 24 * 60 * 60 * 1000,
+const setTokenCookie = (token) => {
+    const cookieOptions = {
+        maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
         httpOnly: true,
         sameSite: 'strict',
-        secure: process.env.NODE_ENV !== "development",
-    });
+        secure: process.env.NODE_ENV !== 'development',
+    };
+    return ('jwt', token, cookieOptions);
 }
 
-function verifyToken(token) {
+const verifyToken = async (req, res, next) => {
+    const token = req.headers.authorization;
+    if (!token) {
+        ErrorResponse.error = 'Unauthorized: Missing token';
+        return res.status(StatusCodes.UNAUTHORIZED).json(ErrorResponse);
+    }
     try {
-        return jwt.verify(token, ServerConfig.JWT_SECRET);
+        const decoded = jwt.verify(token, ServerConfig.JWT_SECRET);
+
+        if(!decoded) {
+            ErrorResponse.error = "Unauthorized - Invalid Token";
+            return res.status(401).json(ErrorResponse);
+        }
+
+        console.log(decoded);
+
+        const user = await User.findById(decoded.id).select("-password");
+
+        if (!user) {
+            ErrorResponse.error = "User not found";
+            return res.status(404).json(ErrorResponse);
+        }
+
+        req.user = user;
+        next();
     } catch (error) {
-        console.log(error)
-        throw error;
+        console.log(error);
+        ErrorResponse.error = 'Unauthorized: Invalid token';
+        return res.status(StatusCodes.UNAUTHORIZED).json(ErrorResponse);
     }
 }
 

@@ -15,14 +15,12 @@ const signup = async(req, res) => {
                 .json(ErrorResponse);
         }
 
-        const {user, token} = await AuthService.registerUser({ ...req.body })
-
-        // const token = Auth.generateToken({ id: user.id, email: user.email })
-        // Auth.setTokenCookie(token, res);
+        const {user, cookie} = await AuthService.registerUser({ ...req.body })
         
         SuccessResponse.message = "User account created Successfully",
-        SuccessResponse.data = {user, token}
+        SuccessResponse.data = user;
         return res
+            .cookie(cookie)
             .status(StatusCodes.CREATED)
             .json(SuccessResponse)
     } catch (error) {
@@ -47,13 +45,14 @@ const signup = async(req, res) => {
 
 const login = async (req, res) => {
     try {
-        const {user, token} = await AuthService.loginUser({
+        const {user, cookie, token} = await AuthService.loginUser({
             email: req.body.email,
             password: req.body.password
         });
         SuccessResponse.message = "User logged in Successfully"
         SuccessResponse.data = {user, token};
         return res
+            .cookie(cookie)
             .status(StatusCodes.OK)
             .json(SuccessResponse)
     } catch (error) {

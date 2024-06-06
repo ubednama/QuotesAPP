@@ -10,8 +10,6 @@ const fetchQuotes = async (req, res) => {
             .skip((Number(page) - 1) * Number(limit))
             .populate('authorId', 'profileImageURL knownFor');
 
-        console.log("Quotes:", quotes[0]);
-
         const totalQuotes = await Quote.countDocuments();
 
         let noMoreResults = false;
@@ -48,8 +46,6 @@ const fetchUserQuotes = async (req, res) => {
             .limit(Number(limit))
             .skip((Number(page) - 1) * Number(limit))
             .populate('authorId', 'profileImageURL knownFor');
-
-        console.log(quotes)
 
         const totalQuotes = await Quote.countDocuments({ authorType: 'User' });
 
