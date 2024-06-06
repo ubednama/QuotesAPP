@@ -14,8 +14,9 @@ const fetchQuotes = async (req, res) => {
 
         const totalQuotes = await Quote.countDocuments();
 
+        let noMoreResults = false;
         if (quotes.length === 0) {
-            return quotes;
+            return { totalQuotes: 0, quotes, noMoreResults: true }
         }
 
         const quotesWithLikeCount = quotes.map(quote => ({
@@ -25,7 +26,6 @@ const fetchQuotes = async (req, res) => {
             knownFor: quote.authorId.knownFor
         }));
 
-        let noMoreResults = false;
         if (totalQuotes <= (Number(page) - 1) * Number(limit) + quotes.length) {
             noMoreResults = true;
         }
@@ -34,7 +34,7 @@ const fetchQuotes = async (req, res) => {
 
     } catch (error) {
         console.error("Error fetching quotes:", error.message);
-        throw new AppError("Failed to fetch quotes", StatusCodes.INTERNAL_SERVER_ERROR)
+        throw new AppError("Internal Server Error", StatusCodes.INTERNAL_SERVER_ERROR)
     }
 };
 
@@ -53,10 +53,9 @@ const fetchUserQuotes = async (req, res) => {
 
         const totalQuotes = await Quote.countDocuments({ authorType: 'User' });
 
+        let noMoreResults = false;
         if (quotes.length === 0) {
-            console.log("empty")
-            SuccessResponse.message = "No user quotes available";
-            return res.status(StatusCodes.NOT_FOUND).json(SuccessResponse);
+            return { totalQuotes: 0, quotes, noMoreResults: true }
         }
 
         const quotesWithLikeCount = quotes.map(quote => ({
@@ -66,14 +65,14 @@ const fetchUserQuotes = async (req, res) => {
             knownFor: quote.authorId.knownFor
         }));
 
-        SuccessResponse.message = "User quotes fetched successfully";
-        SuccessResponse.data = { totalQuotes, quotes: quotesWithLikeCount};
-        return res.status(StatusCodes.OK).json(SuccessResponse);
+        if (totalQuotes <= (Number(page) - 1) * Number(limit) + quotes.length) {
+            noMoreResults = true;
+        }
+
+        return {totalQuotes, quotes: quotesWithLikeCount, noMoreResults};
     } catch (error) {
         console.error("Error fetching user quotes:", error.message);
-        ErrorResponse.error = ["Internal server error"];
-        ErrorResponse.message = "Failed to fetch user quotes";
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+        throw new AppError("Internal Server Error", StatusCodes.INTERNAL_SERVER_ERROR)
     }
 };
 
@@ -90,11 +89,11 @@ const fetchPersonalityQuotes = async (req, res) => {
 
         const totalQuotes = await Quote.countDocuments({ authorType: 'Personality' });
 
+        let noMoreResults = false;
         if (quotes.length === 0) {
-            SuccessResponse.message = "No personality quotes available";
-            return res.status(StatusCodes.NOT_FOUND).json(SuccessResponse);
+            return { totalQuotes: 0, quotes, noMoreResults: true }
         }
-
+        
         const quotesWithLikeCount = quotes.map(quote => ({
             ...quote.toObject(),
             likeCount: quote.likes.length,
@@ -102,14 +101,14 @@ const fetchPersonalityQuotes = async (req, res) => {
             knownFor: quote.authorId.knownFor
         }));
 
-        SuccessResponse.message = "Personality quotes fetched successfully";
-        SuccessResponse.data = { totalQuotes, quotes: quotesWithLikeCount };
-        return res.status(StatusCodes.OK).json(SuccessResponse);
+        if (totalQuotes <= (Number(page) - 1) * Number(limit) + quotes.length) {
+            noMoreResults = true;
+        }
+
+        return { totalQuotes, quotes: quotesWithLikeCount, noMoreResults };
     } catch (error) {
         console.error("Error fetching personality quotes:", error.message);
-        ErrorResponse.error = ["Internal server error"];
-        ErrorResponse.message = "Failed to fetch personality quotes";
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+        throw new AppError("Internal Server Error", StatusCodes.INTERNAL_SERVER_ERROR)
     }
 };
 
@@ -129,9 +128,9 @@ const fetchQuotesByFullName = async (req, res) => {
 
         const totalQuotes = await Quote.countDocuments({ author: fullName });
 
+        let noMoreResults = false;
         if (quotes.length === 0) {
-            SuccessResponse.message = "No quotes available for this author";
-            return res.status(StatusCodes.NOT_FOUND).json(SuccessResponse);
+            return { totalQuotes: 0, quotes, noMoreResults: true }
         }
 
         const quotesWithLikeCount = quotes.map(quote => ({
@@ -141,14 +140,14 @@ const fetchQuotesByFullName = async (req, res) => {
             knownFor: quote.authorId.knownFor
         }));
 
-        SuccessResponse.message = "Quotes fetched successfully for the author";
-        SuccessResponse.data = { totalQuotes, quotes: quotesWithLikeCount};
-        return res.status(StatusCodes.OK).json(SuccessResponse);
+        if (totalQuotes <= (Number(page) - 1) * Number(limit) + quotes.length) {
+            noMoreResults = true;
+        }
+
+        return { totalQuotes, quotes: quotesWithLikeCount, noMoreResults };
     } catch (error) {
         console.error(`Error fetching quotes for author ${fullName}:`, error.message);
-        ErrorResponse.error = ["Internal server error"];
-        ErrorResponse.message = "Failed to fetch quotes for the author";
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+        throw new AppError("Internal Server Error", StatusCodes.INTERNAL_SERVER_ERROR)
     }
 };
 

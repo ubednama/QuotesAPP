@@ -38,29 +38,25 @@ const Feed = () => {
   return (
     <div className="flex flex-col items-center w-full bg-black">
       <div className="w-full border-b-[1px] border-gray-600">
-        <nav className="w-full px-10 border-gray-200 dark:border-gray-800 pt-5 border-b-2 max-w-xl flex justify-between">
+        <nav className="w-full sm:px-5 xl:px-10 border-gray-200 dark:border-gray-800 pt-5 border-b-2 max-w-xl flex justify-between">
           <button
-            className={`${
-              selectedOption === "" && "border-b-4 rounded-sm border-blue-500"
+            className={`mr-2 border-b-4 rounded-sm ${
+              selectedOption === "" ? "border-blue-500" : "border-black"
             }`}
             onClick={() => handleOptionChange("")}
           >
             All Quotes
           </button>
           <button
-            className={`${
-              selectedOption === "users" &&
-              "border-b-4 rounded-sm border-blue-500"
+            className={`mx-2 border-b-4 rounded-sm ${
+              selectedOption === "users" ? "border-blue-500" : "border-black"
             }`}
             onClick={() => handleOptionChange("users")}
           >
             User Quotes
           </button>
           <button
-            className={` ${
-              selectedOption === "personalities" &&
-              "border-b-4 rounded-sm border-blue-500"
-            }`}
+            className={`ml-2 border-b-4 rounded-sm ${selectedOption === "personalities" ? "border-blue-500" : "border-black"}`}
             onClick={() => handleOptionChange("personalities")}
           >
             Personality Quotes
@@ -74,15 +70,19 @@ const Feed = () => {
           <div>{error.response.data.message}</div>
         ) : (
           <div>
-            {data.pages?.map((page, pageIndex) => (
-              <div key={pageIndex}>
-                <div key={page.currentPage}>
-                  {page.quotes.map((quote, idx) => (
+            {data.pages[0].quotes.length > 0 ? (
+              data.pages?.map((page, pageIndex) => (
+                <div key={pageIndex}>
+                  <div key={page.currentPage}>
+                    {page.quotes.map((quote, idx) => (
                       <CardComponent key={idx} quote={quote} />
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <div className="pt-4">Nothing to display</div>
+            )}
           </div>
         )}
       </div>

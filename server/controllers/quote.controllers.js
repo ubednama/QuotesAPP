@@ -7,18 +7,16 @@ const getQuotes = async (req, res) => {
     try {
         const { totalQuotes, quotes, noMoreResults } = await QuotesService.fetchQuotes(req, res);
 
-        if (quotes.length === 0) {
-            SuccessResponse.message = "No quotes available";
-            return res.status(StatusCodes.NOT_FOUND).json(SuccessResponse);
-        }
-
         SuccessResponse.message = "Quotes fetched successfully";
+        console.log(quotes)
         if (noMoreResults) {
             SuccessResponse.message = "No more results";
         }
+        if (quotes.length === 0) {
+            SuccessResponse.message = "No quotes available";
+        }
         SuccessResponse.data = { totalQuotes, quotes};
         return res.status(StatusCodes.OK).json(SuccessResponse);
-
     } catch (error) {
         console.error("Error fetching quotes:", error.message);
         ErrorResponse.error = "Internal server error";
@@ -29,17 +27,18 @@ const getQuotes = async (req, res) => {
 
 const getUserQuotes = async (req, res) => {
     try {
-        const quotes = await QuotesService.fetchUserQuotes(req, res);
-
-        console.log(quotes);
-
-        if (quotes.length === 0) {
-            SuccessResponse.message = "No user quotes available";
-            return res.status(StatusCodes.NOT_FOUND).json(SuccessResponse);
-        }
+        const { totalQuotes, quotes, noMoreResults } = await QuotesService.fetchUserQuotes(req, res);
 
         SuccessResponse.message = "User quotes fetched successfully";
-        SuccessResponse.data = quotes;
+        console.log("from controller user quotes",quotes)
+        
+        if (noMoreResults) {
+            SuccessResponse.message = "No more results";
+        }
+        if (quotes.length === 0) {
+            SuccessResponse.message = "No user quotes available";
+        }
+        SuccessResponse.data = { totalQuotes, quotes };
         return res.status(StatusCodes.OK).json(SuccessResponse);
     } catch (error) {
         console.error("Error fetching user quotes:", error.message);
@@ -51,15 +50,17 @@ const getUserQuotes = async (req, res) => {
 
 const getPersonalityQuotes = async (req, res) => {
     try {
-        const quotes = await QuotesService.fetchPersonalityQuotes(req, res);
-
-        if (quotes.length === 0) {
-            SuccessResponse.message = "No personality quotes available";
-            return res.status(StatusCodes.NOT_FOUND).json(SuccessResponse);
-        }
+        const { totalQuotes, quotes, noMoreResults } = await QuotesService.fetchPersonalityQuotes(req, res);
 
         SuccessResponse.message = "Personality quotes fetched successfully";
-        SuccessResponse.data = quotes;
+        
+        if (noMoreResults) {
+            SuccessResponse.message = "No more results";
+        }
+        if (quotes.length === 0) {
+            SuccessResponse.message = "No personality quotes available";
+        }
+        SuccessResponse.data = { totalQuotes, quotes };
         return res.status(StatusCodes.OK).json(SuccessResponse);
     } catch (error) {
         console.error("Error fetching personality quotes:", error.message);
@@ -71,15 +72,17 @@ const getPersonalityQuotes = async (req, res) => {
 
 const getQuotesByFullName = async (req, res) => {
     try {
-        const quotes = await QuotesService.fetchQuotesByFullName(req, res);
-
-        if (quotes.length === 0) {
-            SuccessResponse.message = "No quotes available for this author";
-            return res.status(StatusCodes.NOT_FOUND).json(SuccessResponse);
-        }
+        const { totalQuotes, quotes, noMoreResults } = await QuotesService.fetchQuotesByFullName(req, res);
 
         SuccessResponse.message = "Quotes fetched successfully for the author";
-        SuccessResponse.data = quotes;
+        
+        if (noMoreResults) {
+            SuccessResponse.message = "No more results";
+        }
+        if (quotes.length === 0) {
+            SuccessResponse.message = "No quotes available for this author";
+        }
+        SuccessResponse.data = { totalQuotes, quotes };
         return res.status(StatusCodes.OK).json(SuccessResponse);
     } catch (error) {
         console.error("Error fetching quotes for author:", error.message);

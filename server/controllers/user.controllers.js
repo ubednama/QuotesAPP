@@ -6,12 +6,11 @@ const getAllUsers = async (req, res) => {
     try {
         const { users, totalUsers } = await UserService.fetchAllUsers(req, res);
 
+        SuccessResponse.message = "Users fetched successfully";
+        
         if (users?.length === 0) {
             SuccessResponse.message = "No users available";
-            return res.status(StatusCodes.NOT_FOUND).json(SuccessResponse);
         }
-
-        SuccessResponse.message = "Users fetched successfully";
         SuccessResponse.data = { users, totalUsers };
         return res.status(StatusCodes.OK).json(SuccessResponse);
     } catch (error) {
@@ -26,12 +25,11 @@ const getAllPersonalities = async (req, res) => {
     try {
         const { personalities, totalPersonalities } = await UserService.fetchAllPersonalities(req, res);
 
+        SuccessResponse.message = "Personalities fetched successfully";
+        
         if (personalities?.length === 0) {
             SuccessResponse.message = "No personalities available";
-            return res.status(StatusCodes.NOT_FOUND).json(SuccessResponse);
         }
-
-        SuccessResponse.message = "Personalities fetched successfully";
         SuccessResponse.data = { personalities, totalPersonalities };
         return res.status(StatusCodes.OK).json(SuccessResponse);
     } catch (error) {
@@ -46,12 +44,11 @@ const getUserByName = async (req, res) => {
     try {
         const user = await UserService.fetchUserByName(req.params.name);
 
-        if (!user) {
-            SuccessResponse.message = "No user found with the specified name";
-            return res.status(StatusCodes.NOT_FOUND).json(SuccessResponse);
-        }
-
         SuccessResponse.message = "User fetched successfully";
+        
+        if (user.length === 0) {
+            SuccessResponse.message = "No user found with the specified name";
+        }
         SuccessResponse.data = user;
         return res.status(StatusCodes.OK).json(SuccessResponse);
     } catch (error) {
@@ -65,13 +62,12 @@ const getUserByName = async (req, res) => {
 const getPersonalityByName = async (req, res) => {
     try {
         const personality = await UserService.fetchPersonalityByName(req.params.name);
-
-        if (!personality) {
-            SuccessResponse.message = "No personality found with the specified name";
-            return res.status(StatusCodes.NOT_FOUND).json(SuccessResponse);
-        }
-
+        
         SuccessResponse.message = "Personality fetched successfully";
+        
+        if (personality.length === 0) {
+            SuccessResponse.message = "No personality found with the specified name";
+        }
         SuccessResponse.data = personality;
         return res.status(StatusCodes.OK).json(SuccessResponse);
     } catch (error) {

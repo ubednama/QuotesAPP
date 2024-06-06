@@ -14,13 +14,13 @@ const useFetchQuotes = () => {
       }
 
       const res = await axios.get(`/api/v1/quotes${url}?page=${pageParam}`);
+      console.log(res)
       const data = res.data;
 
       console.log(data.data.totalQuotes);
       const quotes = data.data.quotes;
       const hasNextPage = quotes.length > 0;
       
-      if(!hasNextPage) toast.success("No more results")
       return {
         quotes,
         hasNextPage
