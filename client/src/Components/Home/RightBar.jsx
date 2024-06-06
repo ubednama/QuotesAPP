@@ -2,7 +2,7 @@ import Avatar from "../User/Avatar";
 import useFetchUsers from "../../hooks/useFetchUsers";
 
 const RightBar = () => {
-  const { data, fetchData, loading, hasMore } = useFetchUsers();
+  const { data, fetchData, hasMore } = useFetchUsers();
 
   const handleShowMoreUsers = () => {
     if (hasMore) {
@@ -17,15 +17,13 @@ const RightBar = () => {
   };
 
   return (
-    <div>
-      <div className="w-full border-b-[1px] border-gray-600">
-        <div className="w-full sm:px-5 xl:px-10 border-gray-200 dark:border-gray-800 pt-5 border-b-2 max-w-xl flex justify-between text-lg items-end">
-          <div>Personalities</div>
-          <div className="text-xs pb-2 text-blue-400 cursor-pointer">
+    <div className="mt-3 ml-6 lg:ml-8 flex flex-col gap-8 lg:gap-10">
+      <div className="w-full border-[1px] border-gray-600 rounded-lg">
+        <div className="w-full sm:px-2 xl:px-5 border-gray-200 dark:border-gray-800 pt-5 border-b-2 max-w-xl flex justify-between text-lg items-end">
+          <div className="font-bold">Personalities</div>
+          <div className="text-xs pb-1 text-blue-400 cursor-pointer">
             {hasMore && (
-              <button onClick={handleShowMorePersonalities} disabled={loading}>
-                {loading ? "Loading..." : "Show More"}
-              </button>
+              <button onClick={handleShowMorePersonalities}>Show More</button>
             )}
           </div>
         </div>
@@ -36,14 +34,12 @@ const RightBar = () => {
         </div>
       </div>
 
-      <div className="w-full border-b-[1px] border-gray-600">
-        <div className="w-full sm:px-5 xl:px-10 border-gray-200 dark:border-gray-800 pt-5 border-b-2 max-w-xl flex justify-between text-lg items-end">
-          <div>Users</div>
-          <div className="text-xs pb-2 text-blue-400 cursor-pointer">
+      <div className="w-full border-[1px] border-gray-600 rounded-lg">
+        <div className="w-full sm:px-2 xl:px-5 border-gray-200 dark:border-gray-800 pt-5 border-b-2 max-w-xl flex justify-between text-lg items-end">
+          <div className="font-bold">Users</div>
+          <div className="text-xs pb-1 text-blue-400 cursor-pointer">
             {hasMore && (
-              <button onClick={handleShowMoreUsers} disabled={loading}>
-                {loading ? "Loading..." : "Show More"}
-              </button>
+              <button onClick={handleShowMoreUsers}>Show More</button>
             )}
           </div>
         </div>

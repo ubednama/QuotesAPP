@@ -38,14 +38,14 @@ const Feed = () => {
   return (
     <div className="flex flex-col items-center w-full bg-black">
       <div className="w-full border-b-[1px] border-gray-600">
-        <nav className="w-full sm:px-5 xl:px-10 border-gray-200 dark:border-gray-800 pt-5 border-b-2 max-w-xl flex justify-between">
+        <nav className="w-full px-5 xl:px-10 border-gray-200 dark:border-gray-800 pt-5 border-b-2 max-w-xl flex justify-between">
           <button
             className={`mr-2 border-b-4 rounded-sm ${
               selectedOption === "" ? "border-blue-500" : "border-black"
             }`}
             onClick={() => handleOptionChange("")}
           >
-            All Quotes
+            All
           </button>
           <button
             className={`mx-2 border-b-4 rounded-sm ${
@@ -53,23 +53,27 @@ const Feed = () => {
             }`}
             onClick={() => handleOptionChange("users")}
           >
-            User Quotes
+            Users
           </button>
           <button
-            className={`ml-2 border-b-4 rounded-sm ${selectedOption === "personalities" ? "border-blue-500" : "border-black"}`}
+            className={`ml-2 border-b-4 rounded-sm ${
+              selectedOption === "personalities"
+                ? "border-blue-500"
+                : "border-black"
+            }`}
             onClick={() => handleOptionChange("personalities")}
           >
-            Personality Quotes
+            Personalities
           </button>
         </nav>
       </div>
-      <div className="">
+      <div className="w-full">
         {status === "pending" ? (
           <span className="loading loading-spinner mx-auto"></span>
         ) : status === "error" ? (
           <div>{error.response.data.message}</div>
         ) : (
-          <div>
+          <div className="">
             {data.pages[0].quotes.length > 0 ? (
               data.pages?.map((page, pageIndex) => (
                 <div key={pageIndex}>
@@ -81,7 +85,7 @@ const Feed = () => {
                 </div>
               ))
             ) : (
-              <div className="pt-4">Nothing to display</div>
+              <div className="pt-4 text-center">Nothing to display</div>
             )}
           </div>
         )}

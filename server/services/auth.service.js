@@ -24,11 +24,15 @@ async function registerUser(user) {
         if (newUser) {
             await newUser.save();
 
-            return data = {
+            let user = {
                 _id: newUser._id,
                 fullName: newUser.fullName,
                 email: newUser.email
             }
+
+            const token = Auth.generateToken({ id: user._id, email: user.email })
+            Auth.setTokenCookie(token);
+            return {user, token}
 
         } else {
             throw new AppError("Invalid User data", StatusCodes.BAD_REQUEST)
@@ -56,7 +60,7 @@ async function loginUser(credentials){
         }
 
         const token = Auth.generateToken({ id: user.id, email: user.email })
-        return token;
+        return {user, token};
     } catch (error) {
         console.log("Error in login service\n", error)
         if (error instanceof AppError) throw error;

@@ -1,28 +1,10 @@
 import Avatar from "../User/Avatar"
+import { FiLogOut } from "react-icons/fi";
 
 const LeftBar = () => {
   return (
     <div className="">
-      Personalities
-      <div className="flex h-fit  overflow-auto hover:overflow-scroll">
-        <Avatar />
-        <Avatar />
-        <Avatar />
-        <Avatar />
-        <Avatar />
-        <Avatar />
-        <Avatar />
-        <Avatar />
-        <Avatar />
-        <Avatar />
-        <Avatar />
-        <Avatar />
-        <Avatar />
-        <Avatar />
-        <Avatar />
-        <Avatar />
-        <Avatar />
-      </div>
+      <button ><FiLogOut /></button>
     </div>
   );
 }

@@ -5,6 +5,7 @@ const { ErrorResponse, ErrorMessage, Utils, AppError } = require("../utils");
 function validateSingupRequest(req, res, next) {
     const { fullName, email, password, confirmPassword, gender } = req.body
 
+    console.log(fullName, email, password, confirmPassword, gender);
     
     if(!fullName || !email || !password || !confirmPassword || !gender) {
         ErrorResponse.error = "Provide complete details to create an Account"
