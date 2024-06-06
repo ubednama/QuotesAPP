@@ -69,8 +69,8 @@ const Feed = () => {
       </div>
       <div className="flex-1 overflow-y-auto">
         {status === "pending" ? (
-          <div className="text-center">  
-          <div className="loading loading-spinner mx-auto"></div>
+          <div className="text-center">
+            <div className="loading loading-spinner mx-auto"></div>
           </div>
         ) : status === "error" ? (
           <div>{error.response.data.message}</div>
@@ -89,12 +89,12 @@ const Feed = () => {
             ) : (
               <div className="pt-4 text-center">Nothing to display</div>
             )}
+            <div ref={ref}>
+              {isFetchingNextPage && (
+                <span className="loading loading-spinner mx-auto"></span>
+              )}
+            </div>
           </div>
-        )}
-      </div>
-      <div ref={ref}>
-        {isFetchingNextPage && (
-          <span className="loading loading-spinner mx-auto"></span>
         )}
       </div>
     </div>
