@@ -5,15 +5,15 @@ import RightBar from "../../Components/Home/RightBar";
 const Home = () => {
   return (
     <div className="flex w-full px-10 sm:min-w-[900px] sm:max-w-[1300px] sm:w-[80vw] rounded-lg">
-      <div className="w-[20%] overflow-x-auto">
+      <div className="w-[20%] overflow-hidden">
         <LeftBar />
       </div>
       <div className="divider divider-horizontal !w-[2px] !m-0 !p-0"></div>
-      <div className="w-[50%]">
+      <div className="w-[50%] overflow-y-auto h-full">
         <Feed />
       </div>
       <div className="divider divider-horizontal !w-[2px] !m-0 !p-0"></div>
-      <div className="w-[30%] overflow-x-auto">
+      <div className="w-[30%] overflow-hidden">
         <RightBar />
       </div>
     </div>

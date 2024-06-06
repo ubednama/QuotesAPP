@@ -36,7 +36,7 @@ const Feed = () => {
   if (data) console.log(data);
 
   return (
-    <div className="items-center w-full bg-black">
+    <div className="flex flex-col h-screen w-full bg-black">
       <div className="w-full border-b-[1px] border-gray-600">
         <nav className="w-full px-5 xl:px-10 border-gray-200 dark:border-gray-800 pt-5 border-b-2 max-w-xl flex justify-between">
           <button
@@ -67,7 +67,7 @@ const Feed = () => {
           </button>
         </nav>
       </div>
-      <div className="">
+      <div className="flex-1 overflow-y-auto">
         {status === "pending" ? (
           <div className="text-center">  
           <div className="loading loading-spinner mx-auto"></div>
