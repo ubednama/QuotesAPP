@@ -8,7 +8,6 @@ const getQuotes = async (req, res) => {
         const { totalQuotes, quotes, noMoreResults } = await QuotesService.fetchQuotes(req, res);
 
         SuccessResponse.message = "Quotes fetched successfully";
-        console.log(quotes)
         if (noMoreResults) {
             SuccessResponse.message = "No more results";
         }

@@ -27,7 +27,6 @@ const fetchQuotes = async (req, res) => {
         if (totalQuotes <= (Number(page) - 1) * Number(limit) + quotes.length) {
             noMoreResults = true;
         }
-        console.log(quotes[0])
         return { totalQuotes, quotes: quotesWithLikeCount, noMoreResults }
 
     } catch (error) {

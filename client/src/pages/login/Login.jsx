@@ -5,7 +5,7 @@ import useLogin from "../../hooks/useLogin";
 
 const Login = () => {
   const [inputs, setInputs] = useState({
-    email: "email1@email.com",
+    email: "john@doe.com",
     password: "12345678",
   });
 

@@ -51,6 +51,7 @@ const login = async (req, res) => {
         });
         SuccessResponse.message = "User logged in Successfully"
         SuccessResponse.data = {user, token};
+        console.log(cookie)
         return res
             .cookie(cookie)
             .status(StatusCodes.OK)

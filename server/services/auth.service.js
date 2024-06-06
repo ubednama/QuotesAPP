@@ -61,7 +61,10 @@ async function loginUser(credentials){
         }
 
         const token = Auth.generateToken({ id: user.id, email: user.email })
+
+        console.log(token)
         const cookie = Auth.setTokenCookie(token);
+        console.log(cookie)
         return {
             user: {
                 fullName: user.fullName, email: user.email, profileImageURL: user?.profileImageURL, knownFor: user?.knownFor }, cookie, token };

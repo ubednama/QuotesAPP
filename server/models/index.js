@@ -1,5 +1,5 @@
 module.exports = {
-    User: require('./User'),
-    Quote: require('./Quote'),
-    Personality: require('./Personality')
+    User: require('./User.model'),
+    Quote: require('./Quote.model'),
+    Personality: require('./Personality.model')
 }
