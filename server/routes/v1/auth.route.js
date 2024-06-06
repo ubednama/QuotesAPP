@@ -5,9 +5,7 @@ const router = express.Router();
 
 router.post('/login', AuthMiddlewares.validateLoginRequest, AuthControllers.login )
 
-
-router.get('/logout', AuthControllers.logout)
-
+router.post('/logout', AuthControllers.logout)
 
 router.post('/signup', AuthMiddlewares.validateSingupRequest, AuthControllers.signup)
 

@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 
 const useFetchQuotes = () => {
   const fetchQuotes = async (selectedOption, { pageParam = 1 }) => {
+
     try {
       let url;
       if (selectedOption === "users") {
@@ -13,7 +14,9 @@ const useFetchQuotes = () => {
         url = ``;
       }
 
-      const res = await axios.get(`/api/v1/quotes${url}?page=${pageParam}`);
+      const res = await axios.get(`/api/v1/quotes${url}?page=${pageParam}`, {
+        withCredentials: true,
+      });
       console.log(res)
       const data = res.data;
 

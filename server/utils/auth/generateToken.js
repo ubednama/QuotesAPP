@@ -27,7 +27,11 @@ const setTokenCookie = (token) => {
         sameSite: 'strict',
         secure: process.env.NODE_ENV !== 'development',
     };
-    return ('jwt', token, cookieOptions);
+    return {
+        name: 'jwt',
+        token: token,
+        options: cookieOptions
+    };
 }
 
 module.exports = {

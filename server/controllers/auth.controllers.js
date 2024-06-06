@@ -15,12 +15,12 @@ const signup = async(req, res) => {
                 .json(ErrorResponse);
         }
 
-        const {user, cookie} = await AuthService.registerUser({ ...req.body })
+        const { user, cookie, token } = await AuthService.registerUser({ ...req.body })
         
         SuccessResponse.message = "User account created Successfully",
-        SuccessResponse.data = user;
+        SuccessResponse.data = {user, token, cookie};
         return res
-            .cookie(cookie)
+            .cookie(cookie.name, cookie.token, cookie.options)
             .status(StatusCodes.CREATED)
             .json(SuccessResponse)
     } catch (error) {
@@ -50,10 +50,10 @@ const login = async (req, res) => {
             password: req.body.password
         });
         SuccessResponse.message = "User logged in Successfully"
-        SuccessResponse.data = {user, token};
+        SuccessResponse.data = {user, token, cookie};
         console.log(cookie)
         return res
-            .cookie(cookie)
+            .cookie(cookie.name, cookie.token, cookie.options)
             .status(StatusCodes.OK)
             .json(SuccessResponse)
     } catch (error) {

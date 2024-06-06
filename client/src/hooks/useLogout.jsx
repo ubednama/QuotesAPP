@@ -1,6 +1,8 @@
-import { useState } from "react";
-import { useAuthContext } from "../context/AuthContext";
+
 import toast from "react-hot-toast";
+import axios from "axios";
+import useAuthContext from "./useAuthContext";
+import { useState } from "react";
 
 const useLogout = () => {
   const [loading, setLoading] = useState(false);
@@ -9,16 +11,17 @@ const useLogout = () => {
   const logout = async () => {
     setLoading(true); //logout takes less then loading state, so we actually dont need this much
     try {
-      const res = await fetch("/api/v1/logout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      });
-      const data = await res.json();
-      if (data.error) {
+      const res = await axios.post("/api/v1/logout");
+      const data = res.data
+
+      console.log(data)
+
+      if (!data || !data.success) {
         throw new Error(data.error);
       }
 
-      localStorage.removeItem("chat-user");
+      localStorage.removeItem("token");
+      toast.success("You are logged out successfully")
       setAuthUser(null);
     } catch (error) {
       toast.error(error.message);
