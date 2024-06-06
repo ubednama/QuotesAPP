@@ -26,6 +26,3 @@ router.get('/personality/:personalityName', async (req, res) => {
 });
 
 module.exports = router;
-
-
-module.exports = router;

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.40.1",
+    "avvvatars-react": "^0.4.2",
     "axios": "^1.7.2",
     "check-password-strength": "^2.0.10",
     "email-validator": "^2.0.4",

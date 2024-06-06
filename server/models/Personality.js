@@ -1,11 +1,15 @@
 const mongoose = require("mongoose");
 
 const personalitySchema = new mongoose.Schema({
-    name: { 
+    fullName: { 
         type: String,
         required: true
     },
     profileURL: {
+        type: String,
+        required: true
+    },
+    profileImageURL: {
         type: String,
         required: true
     },
