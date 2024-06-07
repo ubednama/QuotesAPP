@@ -4,7 +4,7 @@ import RightBar from "../../Components/Home/RightBar";
 
 const Home = () => {
   return (
-    <div className="flex w-full px-10 sm:min-w-[900px] sm:max-w-[1300px] sm:w-[80vw] rounded-lg">
+    <div className="flex w-full px-10 rounded-lg">
       <div className="w-[20%] overflow-hidden">
         <LeftBar />
       </div>

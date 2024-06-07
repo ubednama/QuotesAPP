@@ -34,7 +34,7 @@ async function registerUser(user) {
 
             const token = Auth.generateToken({ id: user.id, email: newUser.email })
             const cookie = Auth.setTokenCookie(token);
-            return {user, cookie, token}
+            return {user, cookie}
 
         } else {
             throw new AppError("Invalid User data", StatusCodes.BAD_REQUEST)
@@ -67,7 +67,7 @@ async function loginUser(credentials){
         const cookie = Auth.setTokenCookie(token);
         console.log(cookie)
         return {
-            user: { id: user._id, fullName: user.fullName, email: user.email, profileImageURL: user?.profileImageURL, knownFor: user?.knownFor }, cookie, token };
+            user: { id: user._id, fullName: user.fullName, email: user.email, profileImageURL: user?.profileImageURL, knownFor: user?.knownFor }, cookie };
     } catch (error) {
         console.log("Error in login service\n", error)
         if (error instanceof AppError) throw error;

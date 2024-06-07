@@ -22,9 +22,10 @@ const useLogin = () => {
         throw new Error(data ? data.error : "Request failed");
       }
 
-      localStorage.setItem("token", data.data.token);
+      localStorage.setItem("user", JSON.stringify(data.data.user));
       toast.success(data.message)
-      setAuthUser(data.data.token);
+      console.log(data.data.user)
+      setAuthUser(data.data.user);
     } catch (error) {
       console.error(error);
       toast.error(error.response.data.error.desc)

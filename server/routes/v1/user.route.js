@@ -7,4 +7,6 @@ router.get('/personalities', UserControllers.getAllPersonalities);
 router.get('/users/:name', UserControllers.getUserByName);
 router.get('/personalities/:name', UserControllers.getPersonalityByName);
 
+//profile route
+
 module.exports = router;

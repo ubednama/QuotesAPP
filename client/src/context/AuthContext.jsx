@@ -8,9 +8,18 @@ export const AuthContext = createContext();
 // };
 
 export const AuthContextProvider = ({ children }) => {
-  const [authUser, setAuthUser] = useState(
-    localStorage.getItem("token") || null
-  );
+  const getUserInfoFromLocalStorage = () => {
+    try {
+      const userInfo = localStorage.getItem("user");
+      console.log("Retrieved user info from local storage:", userInfo);
+      return userInfo ? JSON.parse(userInfo) : null;
+    } catch (error) {
+      console.error("Failed to parse user info from localStorage", error);
+      return null;
+    }
+  };
+
+  const [authUser, setAuthUser] = useState(getUserInfoFromLocalStorage())
 
   return (
     <AuthContext.Provider value={{ authUser, setAuthUser }}>
